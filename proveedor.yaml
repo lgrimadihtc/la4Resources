@@ -1,0 +1,204 @@
+---
+openapi: 3.0.2
+info:
+  title: proveedor-api
+  version: 1.0.0
+  contact:
+    name: Lorenzo
+    email: lgrimaldi@hightech-corp.com
+  license:
+    name: GNU AGPLv3
+    url: https://www.gnu.org/licenses/agpl.txt
+servers:
+- url: localhost:8080
+  description: ""
+paths:
+  /proveedors:
+    summary: Path used to manage the list of proveedors.
+    description: "The REST endpoint/path used to list and create zero or more `proveedor`\
+      \ entities.  This path contains a `GET` and `POST` operation to perform the\
+      \ list and create tasks, respectively."
+    get:
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/proveedor'
+          description: Successful response - returns an array of `proveedor` entities.
+      operationId: getproveedors
+      summary: List All proveedors
+      description: Gets a list of all `proveedor` entities.
+    post:
+      requestBody:
+        description: A new `proveedor` to be created.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/proveedor'
+        required: true
+      responses:
+        "201":
+          description: Successful response.
+      operationId: createproveedor
+      summary: Create a proveedor
+      description: Creates a new instance of a `proveedor`.
+  /proveedors/{proveedorId}:
+    summary: Path used to manage a single proveedor.
+    description: "The REST endpoint/path used to get, update, and delete single instances\
+      \ of an `proveedor`.  This path contains `GET`, `PUT`, and `DELETE` operations\
+      \ used to perform the get, update, and delete tasks, respectively."
+    get:
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/proveedor'
+          description: Successful response - returns a single `proveedor`.
+      operationId: getproveedor
+      summary: Get a proveedor
+      description: Gets the details of a single instance of a `proveedor`.
+    put:
+      requestBody:
+        description: Updated `proveedor` information.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/proveedor'
+        required: true
+      responses:
+        "202":
+          description: Successful response.
+      operationId: updateproveedor
+      summary: Update a proveedor
+      description: Updates an existing `proveedor`.
+    delete:
+      responses:
+        "204":
+          description: Successful response.
+      operationId: deleteproveedor
+      summary: Delete a proveedor
+      description: Deletes an existing `proveedor`.
+    parameters:
+    - name: proveedorId
+      description: A unique identifier for a `proveedor`.
+      schema:
+        type: string
+      in: path
+      required: true
+components:
+  schemas:
+    proveedor:
+      title: Root Type for proveedor
+      description: ""
+      type: object
+      properties:
+        codigoProveedor:
+          type: string
+        descripcion:
+          type: string
+        precioCosto:
+          format: int32
+          type: integer
+        precioVenta:
+          format: int32
+          type: integer
+        foto:
+          type: string
+      example:
+        codigoProveedor: sample
+        descripcion: sample
+        precioCosto: 0
+        precioVenta: 0
+        foto: sample
+    producto:
+      title: Root Type for producto
+      description: ""
+      type: object
+      properties:
+        codigoProvedor:
+          type: string
+        descripcion:
+          type: string
+        precioCosto:
+          format: int32
+          type: integer
+        precioVenta:
+          format: int32
+          type: integer
+        foto:
+          type: string
+      example:
+        codigoProvedor: sample
+        descripcion: sample
+        precioCosto: 0
+        precioVenta: 0
+        foto: sample
+    cliente:
+      title: Root Type for cliente
+      description: ""
+      type: object
+      properties:
+        codCliente:
+          format: int32
+          type: integer
+        nit:
+          type: string
+        nombre:
+          type: string
+        telefono:
+          type: string
+        direccion:
+          type: string
+      example:
+        codCliente: 0
+        nit: sample
+        nombre: sample
+        telefono: sample
+        direccion: sample
+    factura:
+      title: Root Type for factura
+      description: ""
+      type: object
+      properties:
+        NoFactura:
+          format: int32
+          type: integer
+        fecha:
+          format: date
+          type: string
+        totalFactura:
+          type: number
+        codCliente:
+          $ref: '#/components/schemas/cliente'
+          description: ""
+      example:
+        NoFactura: 0
+        fecha: date
+        totalFactura: 0
+    detalleFactura:
+      title: Root Type for detalleFactura
+      description: ""
+      type: object
+      properties:
+        id:
+          format: int32
+          type: integer
+        cantidad:
+          format: int32
+          type: integer
+        total:
+          type: number
+        codProducto:
+          $ref: '#/components/schemas/producto'
+          description: ""
+        noFactura:
+          $ref: '#/components/schemas/factura'
+          description: ""
+      example:
+        id: 0
+        cantidad: 0
+        total: 0
